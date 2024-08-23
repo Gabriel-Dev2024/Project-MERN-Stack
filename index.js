@@ -8,6 +8,6 @@ const port = 3000;
 // Configurações de opições do express
 connectDatabase();
 app.use(express.json());
-app.use('/', userRoute);
+app.use('/user', userRoute);
 
 app.listen(port, () => console.log(`API rodando na porta ${port}`));
