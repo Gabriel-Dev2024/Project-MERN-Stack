@@ -66,5 +66,41 @@ const findById = async (req, res) => {
   res.send(user);
 };
 
+// Rota para atualizar um usuário
+const update = async (req, res) => {
+  const { name, username, email, password, avatar, background } = req.body;
+
+  // Validando se todos os campos estão preenchidos. Se não, retorna um erro 400 e uma mensagem de erro.
+  if (!name && !username && !email && !password && !avatar && !background) {
+    res.status(400).send({ message: 'Preencha todos os campos' })
+  }
+
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: 'ID invalido' });  
+  }
+
+  // Buscando o usuário pelo ID. Se não encontrar, retorna um erro 400 e uma mensagem de erro.
+  const user = await userService.findByIdService(id);
+
+  if (!user) {
+    return res.status(400).send({ message: 'Usuario não encontrado' });
+  }
+  
+  // Atualizando o usuário com os dados fornecidos.
+  await userService.updateService(
+    id,
+    name,
+    username,
+    email,
+    password,
+    avatar,
+    background,
+  );
+
+  res.send({ message: 'Usuario atualizado com sucesso', user });
+}
+
 // Exportando função para ser utilizada em outros lugares da aplicação.
-module.exports = { create, findAll, findById };
+module.exports = { create, findAll, findById, update };
