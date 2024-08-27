@@ -51,17 +51,8 @@ const findById = async (req, res) => {
   // Recebendo o ID do usuário a ser buscado.
   const id = req.params.id;
 
-  // Validando se o ID é válido. Se não, retorna um erro 400 e uma mensagem de erro. 0 é considerado um ID inválido.
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ message: 'ID invalido' });  
-  }
-
   // Buscando o usuário pelo ID. Se não encontrar, retorna um erro 400 e uma mensagem de erro.
   const user = await userService.findByIdService(id);
-
-  if (!user) {
-    return res.status(400).send({ message: 'Usuario não encontrado' });
-  };
 
   res.send(user);
 };
@@ -77,16 +68,8 @@ const update = async (req, res) => {
 
   const id = req.params.id;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ message: 'ID invalido' });  
-  }
-
   // Buscando o usuário pelo ID. Se não encontrar, retorna um erro 400 e uma mensagem de erro.
   const user = await userService.findByIdService(id);
-
-  if (!user) {
-    return res.status(400).send({ message: 'Usuario não encontrado' });
-  }
   
   // Atualizando o usuário com os dados fornecidos.
   await userService.updateService(
