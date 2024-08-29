@@ -1,8 +1,12 @@
 const express = require('express');
-const userRoute = require('./src/routes/user.route');
 const connectDatabase = require('./src/database/db');
 const dotenv = require('dotenv').config();
 
+// Rotas
+const userRoute = require('./src/routes/user.route');
+const authRoute = require('./src/routes/auth.route');
+
+// Inicia o express e define a porta para o server rodar
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -10,5 +14,7 @@ const port = process.env.PORT || 3000;
 connectDatabase();
 app.use(express.json());
 app.use('/user', userRoute);
+app.use('/auth', authRoute);
 
+// Rota inicial para o server rodar
 app.listen(port, () => console.log(`API rodando na porta ${port}`));
