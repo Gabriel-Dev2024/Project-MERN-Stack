@@ -21,7 +21,10 @@ const login = async (req, res) => {
             return res.status(400).send({ message: 'Email ou Senha Inválida' });
         }
 
-        res.send('Login OK!');
+        // Gerar o token para o usuario
+        const token = authService.generateToken(user.id)
+
+        res.send({token});
 
     } catch (err) {
         res.status(400).send({ message: err.message || 'Falha no Login' });
