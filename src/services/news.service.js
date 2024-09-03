@@ -9,6 +9,10 @@ const createService = (body) => News.create(body);
 // .populate('user') traz os dados do usuario que fez a publicação da noticia
 const findAllService = (limit, offset) => News.find().sort({ _id: -1}).skip(offset).limit(limit).populate('user');
 
+// Conta quantas noticias existem no banco de dados
 const countNews = () => News.countDocuments();
 
-module.exports = { createService, findAllService, countNews };
+// News.findOne().sort({ _id: -1 }).populate('user') vai pegar a última noticia do banco de dados
+const topNewsService = () => News.findOne().sort({ _id: -1 }).populate('user');
+
+module.exports = { createService, findAllService, countNews, topNewsService };

@@ -78,8 +78,8 @@ const findAll = async (req, res) => {
                     username: user.username,
                     userAvatar: user.avatar
                 }
-                
-            }),    
+
+            }),
         });
 
     } catch (err) {
@@ -87,4 +87,35 @@ const findAll = async (req, res) => {
     }
 };
 
-module.exports = { create, findAll };
+const topNews = async (req, res) => {
+
+    try {
+        // Pega a ultima noticia
+        const news = await newsService.topNewsService();
+
+    if (!news) {
+        return res.status(400).send({ message: 'Nenhuma Noticia encontrada' });
+    }
+
+
+    const user = news.user || {};
+    res.send({
+        news: {
+            id: news._id,
+            title: news.title,
+            text: news.text,
+            banner: news.banner,
+            likes: news.likes,
+            comments: news.comments,
+            name: user.name,
+            username: user.username,
+            userAvatar: user.avatar
+        }
+    })
+    } catch(err) {
+        res.status(500).send({ message: err.message });
+    }
+    
+}
+
+module.exports = { create, findAll, topNews };
