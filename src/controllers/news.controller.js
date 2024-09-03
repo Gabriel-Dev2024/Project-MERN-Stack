@@ -30,13 +30,57 @@ const create = async (req, res) => {
 const findAll = async (req, res) => {
 
     try {
-        const news = await newsService.findAllService();
+        let { limit, offset } = req.query;
+
+        limit = Number(limit);
+        offset = Number(offset);
+
+        if (!limit || !offset) {
+            limit = 5;
+            offset = 0;
+        }
+
+        // Envia para o banco de dados os limit e offset que são colocados no query
+        // E conta o total de noticias com a função countNews
+        const news = await newsService.findAllService(limit, offset);
+        const total = await newsService.countNews();
+        const currentUrl = req.baseUrl;
+
+        // URL para a próxima página de resultados, se houver mais notícias disponíveis
+        const next = offset + limit;
+        const nextUrl = next < total ? `${currentUrl}?limit=${limit}&offset=${next}` : null;
+
+        const previous = offset - limit < 0 ? null : offset - limit;
+        const previousUrl = previous ? `${currentUrl}?limit=${limit}&offset=${previous}` : null;
 
         if (news.length === 0) {
             return res.status(400).send({ message: 'Nenhuma Noticia encontrado' });
         }
 
-        res.send(news);
+        res.send({
+            nextUrl,
+            previousUrl,
+            limit,
+            offset,
+            total,
+
+            results: news.map((newsItem) => {
+                const user = newsItem.user || {};
+
+                return {
+                    id: newsItem._id,
+                    title: newsItem.title,
+                    text: newsItem.text,
+                    banner: newsItem.banner,
+                    likes: newsItem.likes,
+                    comments: newsItem.comments,
+                    name: user.name,
+                    username: user.username,
+                    userAvatar: user.avatar
+                }
+                
+            }),    
+        });
 
     } catch (err) {
         res.status(500).send({ message: err.message });
