@@ -180,4 +180,37 @@ const searchByTitle = async (req, res) => {
     };
 };
 
-module.exports = { create, findAll, topNews, findById, searchByTitle };
+const byUser = async (req, res) => {
+    
+    try {
+        // Esse userId é pego do middleware de authentication
+        const id = req.userId;
+
+        const news = await newsService.byUserService(id);
+
+        res.send({
+            results: news.map((newsItem) => {
+                const user = newsItem.user || {};
+
+                return {
+                    id: newsItem._id,
+                    title: newsItem.title,
+                    text: newsItem.text,
+                    banner: newsItem.banner,
+                    likes: newsItem.likes,
+                    comments: newsItem.comments,
+                    name: user.name,
+                    username: user.username,
+                    userAvatar: user.avatar
+                }
+            })
+        });
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    };
+};
+
+
+
+module.exports = { create, findAll, topNews, findById, searchByTitle, byUser };
