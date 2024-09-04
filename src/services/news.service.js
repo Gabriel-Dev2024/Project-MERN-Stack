@@ -15,4 +15,6 @@ const countNews = () => News.countDocuments();
 // News.findOne().sort({ _id: -1 }).populate('user') vai pegar a última noticia do banco de dados
 const topNewsService = () => News.findOne().sort({ _id: -1 }).populate('user');
 
-module.exports = { createService, findAllService, countNews, topNewsService };
+const findByIdService = (id) => News.findById(id).populate('user');
+
+module.exports = { createService, findAllService, countNews, topNewsService, findByIdService };
