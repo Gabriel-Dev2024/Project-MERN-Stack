@@ -145,4 +145,39 @@ const findById = async (req, res) => {
     }
 };
 
-module.exports = { create, findAll, topNews, findById };
+const searchByTitle = async (req, res) => {
+
+    try {
+        // Pega o título da noticia passado no query string ate o momento
+        const { title } = req.query;
+
+        const news = await newsService.searchByTitleService(title);
+
+        if (news.length === 0) {
+            return res.status(400).send({ message: 'Nenhuma Noticia encontrada' });
+        }
+
+        res.send({
+            results: news.map((newsItem) => {
+                const user = newsItem.user || {};
+
+                return {
+                    id: newsItem._id,
+                    title: newsItem.title,
+                    text: newsItem.text,
+                    banner: newsItem.banner,
+                    likes: newsItem.likes,
+                    comments: newsItem.comments,
+                    name: user.name,
+                    username: user.username,
+                    userAvatar: user.avatar
+                }
+            })
+        });
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    };
+};
+
+module.exports = { create, findAll, topNews, findById, searchByTitle };
