@@ -26,6 +26,12 @@ const searchByTitleService = (title) => News.find({
     .sort({ _id: -1 })
     .populate('user');
 
+// News.find({ user: id }) vai pegar todas as noticias publicadas pelo usuario com o id passado como parametro
 const byUserService = (id) => News.find({ user: id }).sort({ _id: -1 }).populate('user');
 
-module.exports = { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService };
+// Essa função atualiza a noticia pelo id passado como parametro
+// E permite atualiza o title, text ou o banner
+// E o rawResult é para escrever o resultado na tela
+const updateService = (id, title, text, banner) => News.findOneAndUpdate({ _id: id }, { title, text, banner }, { rawResult: true });
+
+module.exports = { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService };

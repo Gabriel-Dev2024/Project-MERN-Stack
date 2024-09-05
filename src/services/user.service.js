@@ -25,6 +25,6 @@ const updateService = (
 ) => User.findOneAndUpdate(
     { _id: id },
     { name, username, email, avatar, background }
-    )
+)
 
 module.exports = { createService, findAllService, findByIdService, updateService };

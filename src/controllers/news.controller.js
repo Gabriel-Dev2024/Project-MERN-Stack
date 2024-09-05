@@ -1,6 +1,5 @@
 const newsService = require('../services/news.service');
 
-// Função para criar uma noticia
 const create = async (req, res) => {
 
     try {
@@ -26,7 +25,6 @@ const create = async (req, res) => {
     }
 };
 
-// Função para listar todas as notícias
 const findAll = async (req, res) => {
 
     try {
@@ -211,6 +209,26 @@ const byUser = async (req, res) => {
     };
 };
 
+const update = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const { title, text, banner } = req.body;
 
+        const news = await newsService.findByIdService(id);
 
-module.exports = { create, findAll, topNews, findById, searchByTitle, byUser };
+        // Testa se o id do user é o mesmo que esta logado
+        if (news.user._id != req.userId) {
+            res.status(400).send({ message: 'Você não pode atualizar essa postagem' });
+        }
+
+        await newsService.updateService(id, title, text, banner);
+
+        res.send({ message: 'Postagem atualizada com sucesso!' });
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+
+module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update };

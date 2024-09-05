@@ -25,4 +25,14 @@ const validUser = async (req, res, next) => {
     next()
 };
 
-module.exports = { validId, validUser };
+const validPost = (req, res, next) => {
+    const { title, text, banner } = req.body;
+
+    if (!title && !text && !banner) {
+        return res.status(400).send({ message: 'Todos os campos são obrigatórios' });
+    }
+
+    next();
+};
+
+module.exports = { validId, validUser, validPost };
