@@ -12,6 +12,7 @@ router.get('/search', newsController.searchByTitle);
 router.get('/byUser', authMiddleware, newsController.byUser);
 router.get('/:id', authMiddleware, newsController.findById);
 router.patch('/:id', authMiddleware,  validPost, newsController.update);
-router.delete('/:id', authMiddleware, newsController.deleteNews)
+router.delete('/:id', authMiddleware, newsController.deleteNews);
+router.patch('/like/:id', authMiddleware, newsController.likeNews);
 
 module.exports = router;

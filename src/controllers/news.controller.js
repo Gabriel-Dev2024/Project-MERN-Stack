@@ -179,7 +179,7 @@ const searchByTitle = async (req, res) => {
 };
 
 const byUser = async (req, res) => {
-    
+
     try {
         // Esse userId é pego do middleware de authentication
         const id = req.userId;
@@ -212,7 +212,7 @@ const byUser = async (req, res) => {
 const update = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         const { title, text, banner } = req.body;
 
         const news = await newsService.findByIdService(id);
@@ -251,4 +251,25 @@ const deleteNews = async (req, res) => {
     };
 };
 
-module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update, deleteNews };
+const likeNews = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+
+        const userId = req.userId;
+
+        const newsLiked = await newsService.likeNewsService(id, userId);
+
+        if (!newsLiked) {
+            await newsService.removeLikeNewsService(id, userId);
+            return res.send({ message: 'Curtida removida com sucesso!' });
+        }
+
+        res.send({ message: 'Notícia curtida com sucesso!'});
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+
+module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update, deleteNews, likeNews };
