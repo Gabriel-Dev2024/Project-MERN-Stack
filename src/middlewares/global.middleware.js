@@ -29,7 +29,7 @@ const validPost = (req, res, next) => {
     const { title, text, banner } = req.body;
 
     if (!title && !text && !banner) {
-        return res.status(400).send({ message: 'Todos os campos são obrigatórios' });
+        return res.status(400).send({ message: 'Pelo menos um campo é obrigatório' });
     }
 
     next();

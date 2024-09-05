@@ -34,4 +34,6 @@ const byUserService = (id) => News.find({ user: id }).sort({ _id: -1 }).populate
 // E o rawResult é para escrever o resultado na tela
 const updateService = (id, title, text, banner) => News.findOneAndUpdate({ _id: id }, { title, text, banner }, { rawResult: true });
 
-module.exports = { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService };
+const deleteNewsService = (id) => News.findOneAndDelete({ _id: id });
+
+module.exports = { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, deleteNewsService };

@@ -231,4 +231,24 @@ const update = async (req, res) => {
     }
 };
 
-module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update };
+const deleteNews = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+
+        const news = await newsService.findByIdService(id);
+
+        if (news.user._id != req.userId) {
+            res.status(400).send({ message: 'Você não pode deletar essa postagem' });
+        }
+
+        await newsService.deleteNewsService(id);
+
+        res.send({ message: 'Notícia deletada com sucesso!' });
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    };
+};
+
+module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update, deleteNews };
