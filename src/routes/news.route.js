@@ -14,5 +14,7 @@ router.get('/:id', authMiddleware, newsController.findById);
 router.patch('/:id', authMiddleware,  validPost, newsController.update);
 router.delete('/:id', authMiddleware, newsController.deleteNews);
 router.patch('/like/:id', authMiddleware, newsController.likeNews);
+router.patch('/comment/:id', authMiddleware, newsController.commentNews);
+router.patch('/comment/:id/:idComment', authMiddleware, newsController.removeComment);
 
 module.exports = router;

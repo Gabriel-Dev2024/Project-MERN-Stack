@@ -52,7 +52,7 @@ const findAll = async (req, res) => {
         const previousUrl = previous ? `${currentUrl}?limit=${limit}&offset=${previous}` : null;
 
         if (news.length === 0) {
-            return res.status(400).send({ message: 'Nenhuma Noticia encontrado' });
+            return res.status(400).send({ message: 'Nenhuma Noticia encontrada' });
         }
 
         res.send({
@@ -120,7 +120,6 @@ const findById = async (req, res) => {
 
     try {
         const { id } = req.params;
-
         const news = await newsService.findByIdService(id);
 
         const user = news.user || {};
@@ -148,7 +147,6 @@ const searchByTitle = async (req, res) => {
     try {
         // Pega o título da noticia passado no query string ate o momento
         const { title } = req.query;
-
         const news = await newsService.searchByTitleService(title);
 
         if (news.length === 0) {
@@ -183,7 +181,6 @@ const byUser = async (req, res) => {
     try {
         // Esse userId é pego do middleware de authentication
         const id = req.userId;
-
         const news = await newsService.byUserService(id);
 
         res.send({
@@ -212,9 +209,7 @@ const byUser = async (req, res) => {
 const update = async (req, res) => {
     try {
         const { id } = req.params;
-
         const { title, text, banner } = req.body;
-
         const news = await newsService.findByIdService(id);
 
         // Testa se o id do user é o mesmo que esta logado
@@ -235,7 +230,6 @@ const deleteNews = async (req, res) => {
 
     try {
         const { id } = req.params;
-
         const news = await newsService.findByIdService(id);
 
         if (news.user._id != req.userId) {
@@ -255,9 +249,7 @@ const likeNews = async (req, res) => {
 
     try {
         const { id } = req.params;
-
         const userId = req.userId;
-
         const newsLiked = await newsService.likeNewsService(id, userId);
 
         if (!newsLiked) {
@@ -265,11 +257,64 @@ const likeNews = async (req, res) => {
             return res.send({ message: 'Curtida removida com sucesso!' });
         }
 
-        res.send({ message: 'Notícia curtida com sucesso!'});
+        res.send({ message: 'Notícia curtida com sucesso!' });
 
     } catch (err) {
         res.status(500).send({ message: err.message });
     }
 };
 
-module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update, deleteNews, likeNews };
+const commentNews = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const userId = req.userId;
+        const comment = req.body.comment;
+
+        if (!comment) {
+            return res.status(400).send({ message: 'Você precisa informar um comentário!' });
+        }
+
+        await newsService.commentNewsService(id, userId, comment);
+
+        res.send({ message: 'Comentário adicionado com sucesso!' });
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    };
+};
+
+const removeComment = async (req, res) => {
+
+    try {
+        const { id, idComment } = req.params;
+        const userId = req.userId;
+
+        // Verifique se id e idComment foram fornecidos
+        if (!id || !idComment) {
+            return res.status(400).send({ message: 'ID da notícia e ID do comentário são obrigatórios.' });
+        }
+
+        const commentDelete = await newsService.removeCommentService(id, idComment, userId);
+
+        // Após a chamada ao serviço, o código tenta encontrar o comentário específico na lista de comentários retornada (commentDelete.comments).
+        const commentFinder = commentDelete.comments.find((comment) => comment.idComment === idComment);
+
+        // Se não encontra o comentário, retorna um 404 e uma mensagem de erro.
+        if (!commentFinder) {
+            res.status(404).send({ message: 'Comentario não existe'});
+        };
+
+        // Verifica se o userId do comentário encontrado é igual ao userId do usuário que está tentando remover o comentário.
+        if (commentFinder.userId !== userId) {
+            return res.status(400).send({ messsage: 'Você não pode apagar esse comentario' });
+        };
+
+        res.send({ message: 'Comentário removido com sucesso!' });
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    };
+};
+
+module.exports = { create, findAll, topNews, findById, searchByTitle, byUser, update, deleteNews, likeNews, commentNews, removeComment };

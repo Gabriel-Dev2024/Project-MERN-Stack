@@ -1,4 +1,5 @@
 const News = require('../models/News');
+const { v4: uuidv4 } = require('uuid'); // Biblioteca para gerar IDs únicos
 
 const createService = (body) => News.create(body);
 
@@ -54,7 +55,7 @@ const updateService = (id, title, text, banner) =>
     );
 
 // Função para deletar uma noticia pelo id passado como parametro
-const deleteNewsService = (id) =>News.findOneAndDelete({ _id: id });
+const deleteNewsService = (id) => News.findOneAndDelete({ _id: id });
 
 // 'likes.userId': { $nin: [userId] }: Isso verifica se o userId não está presente na lista de likes do documento.
 // O operador $nin significa "não está em" e assegura que o usuário ainda não tenha curtido a notícia.
@@ -69,10 +70,35 @@ const likeNewsService = (id, userId) =>
     );
 
 // $pull: Este operador é usado para remover um item de um array no MongoDB.
-const removeLikeNewsService = (id, userId) => 
+const removeLikeNewsService = (id, userId) =>
     News.findOneAndUpdate(
         { _id: id },
         { $pull: { likes: { userId } } }
     );
 
-module.exports = { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, deleteNewsService, likeNewsService, removeLikeNewsService };
+const commentNewsService = (id, userId, comment) => {
+
+    // Gerar um id aleatório para o comentário
+    const idComment = uuidv4();
+    return News.findOneAndUpdate(
+        { _id: id },
+        { $push: {
+                comments: {
+                    idComment,
+                    userId,
+                    comment,
+                    createdAt: new Date()
+                }
+            }
+        }
+    );
+}
+
+// Essa função remove um comentário pelo id passado como parametro
+const removeCommentService = (id, idComment, userId) =>
+    News.findOneAndUpdate(
+        { _id: id },
+        { $pull: { comments: { idComment, userId } } }
+    );
+
+module.exports = { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, deleteNewsService, likeNewsService, removeLikeNewsService, commentNewsService, removeCommentService };
