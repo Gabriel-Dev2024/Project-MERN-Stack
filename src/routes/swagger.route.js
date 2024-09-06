@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('/Programação/Project-MERN-Stack/public/swagger.json');
+const swaggerDocument = require(path.join(__dirname, '../../public/swagger.json'));
 
 router.post('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(swaggerDocument));
