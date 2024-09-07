@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const router = express.Router();    
+const router = express.Router();
 
 // Serve arquivos estáticos do diretório onde estão os arquivos do Swagger UI
 router.use(express.static(path.join(__dirname, '../../public')));
@@ -12,6 +12,8 @@ router.get('/', (req, res) => {
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require(path.join(__dirname, '../../public/swagger.json'));
+
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router.post('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(swaggerDocument));

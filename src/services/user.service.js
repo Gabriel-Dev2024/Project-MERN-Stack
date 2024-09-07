@@ -24,7 +24,8 @@ const updateService = (
     // As chaves são os nomes dos campos que deseja alterar, e os valores são os novos valores para esses campos.
 ) => User.findOneAndUpdate(
     { _id: id },
-    { name, username, email, avatar, background }
+    { name, username, email, avatar, background },
+    { new: true}
 )
 
 module.exports = { createService, findAllService, findByIdService, updateService };

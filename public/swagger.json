@@ -248,7 +248,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Post"
+                                "$ref": "#/components/schemas/News"
                             },
                             "examples": {
                                 "Post": {
@@ -316,7 +316,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Post"
+                                        "$ref": "#/components/schemas/News"
                                     }
                                 }
                             }
@@ -342,7 +342,7 @@
                             "application/json": {
                                 "schemma": {
                                     "type": "object",
-                                    "$ref": "#/components/schemas/Post"
+                                    "$ref": "#/components/schemas/News"
                                 }
                             }
                         }
@@ -376,7 +376,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Post"
+                                        "$ref": "#/components/schemas/News"
                                     }
                                 }
                             }
@@ -387,8 +387,8 @@
         },
         "/news/byIdNews/{id}": {
             "get": {
-                "summary": "Search post by id",
-                "description": "Route responsible for fetching post by id",
+                "summary": "Search news by id",
+                "description": "Route responsible for fetching news by id",
                 "tags": [
                     "News"
                 ],
@@ -402,7 +402,7 @@
                         "in": "path",
                         "name": "id",
                         "type": "string",
-                        "description": "Post ID",
+                        "description": "News ID",
                         "required": true
                     }
                 ],
@@ -419,7 +419,7 @@
                             "application/json": {
                                 "schemma": {
                                     "type": "object",
-                                    "$ref": "#/components/schemas/Post"
+                                    "$ref": "#/components/schemas/News"
                                 }
                             }
                         }
@@ -429,8 +429,8 @@
         },
         "/news/byUserId": {
             "get": {
-                "summary": "Search posts by use id",
-                "description": "Route responsible for fetching posts by use id",
+                "summary": "Search news by use id",
+                "description": "Route responsible for fetching news by use id",
                 "tags": [
                     "News"
                 ],
@@ -448,7 +448,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Post"
+                                        "$ref": "#/components/schemas/News"
                                     }
                                 }
                             }
@@ -459,8 +459,8 @@
         },
         "/news/update/{id}": {
             "patch": {
-                "summary": "Update a post",
-                "description": "Route responsible for updating a Post",
+                "summary": "Update a news",
+                "description": "Route responsible for updating a News",
                 "tags": [
                     "News"
                 ],
@@ -474,7 +474,7 @@
                         "in": "path",
                         "name": "id",
                         "type": "string",
-                        "description": "Post ID",
+                        "description": "News ID",
                         "required": true
                     }
                 ],
@@ -482,7 +482,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Post"
+                                "$ref": "#/components/schemas/News"
                             },
                             "examples": {
                                 "Post": {
@@ -519,8 +519,8 @@
         },
         "/news/delete/{id}": {
             "delete": {
-                "summary": "Delete a post",
-                "description": "Route responsible for deleting a Post",
+                "summary": "Delete a news",
+                "description": "Route responsible for deleting a News",
                 "tags": [
                     "News"
                 ],
@@ -534,7 +534,7 @@
                         "in": "path",
                         "name": "id",
                         "type": "string",
-                        "description": "Post ID",
+                        "description": "News ID",
                         "required": true
                     }
                 ],
@@ -553,8 +553,8 @@
         },
         "/news/{id}/like": {
             "patch": {
-                "summary": "Like a post",
-                "description": "Route responsible for liking a post",
+                "summary": "Like a news",
+                "description": "Route responsible for liking a news",
                 "tags": [
                     "News"
                 ],
@@ -587,8 +587,8 @@
         },
         "/news/{id}/comment": {
             "patch": {
-                "summary": "Comment on a post",
-                "description": "Route responsible for commenting on a post",
+                "summary": "Comment on a news",
+                "description": "Route responsible for commenting on a news",
                 "tags": [
                     "News"
                 ],
