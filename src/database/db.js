@@ -9,7 +9,6 @@ const connectDatabase = () => {
         .then(() => console.log('MongoDB Atlas Connectado com sucesso'))
         .catch((err) => console.log(err));
 
-    mongoose.set('debug', true);
 };
 
 module.exports = connectDatabase;
