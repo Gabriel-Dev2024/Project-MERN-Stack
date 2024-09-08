@@ -214,8 +214,8 @@
                             "examples": {
                                 "User": {
                                     "value": {
-                                        "email": "docencia.thiago@gmail.com",
-                                        "password": "12345"
+                                        "email": "gabriel@gmail.com",
+                                        "password": "123456"
                                     }
                                 }
                             }
@@ -251,7 +251,7 @@
                                 "$ref": "#/components/schemas/News"
                             },
                             "examples": {
-                                "Post": {
+                                "News": {
                                     "value": {
                                         "user": "",
                                         "banner": "https://labs.tadigital.com/wp-content/uploads/2017/07/ES6-banner.jpg",
@@ -289,7 +289,7 @@
         "/news": {
             "get": {
                 "summary": "Search all posts",
-                "description": "Route responsible for fetching all posts",
+                "description": "Route responsible for fetching all news",
                 "tags": [
                     "News"
                 ],
@@ -352,8 +352,8 @@
         },
         "/news/search": {
             "get": {
-                "summary": "Search posts by title",
-                "description": "Route responsible for fetching the posts that match the title sent via query params",
+                "summary": "Search news by title",
+                "description": "Route responsible for fetching the news that match the title sent via query params",
                 "tags": [
                     "News"
                 ],
@@ -487,9 +487,9 @@
                             "examples": {
                                 "Post": {
                                     "value": {
-                                        "banner": "",
                                         "title": "",
-                                        "text": ""
+                                        "text": "",
+                                        "banner": ""
                                     }
                                 }
                             }
@@ -509,7 +509,7 @@
                             "application/json": {
                                 "schemma": {
                                     "type": "object",
-                                    "$ref": "#/components/schemas/Post"
+                                    "$ref": "#/components/schemas/News"
                                 }
                             }
                         }
