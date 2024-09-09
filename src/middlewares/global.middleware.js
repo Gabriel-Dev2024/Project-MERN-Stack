@@ -5,7 +5,7 @@ const validId = (req, res, next) => {
     // Recebendo o ID do usuário a ser buscado.
     const id = req.params.id;
 
-    // Validando se o ID é válido. Se não, retorna um erro 400 e uma mensagem de erro. 0 é considerado um ID inválido.
+    // Validando se o ID é válido. Se não, retorna um erro 400 e uma mensagem de erro.
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({ message: 'ID invalido' });
     }
