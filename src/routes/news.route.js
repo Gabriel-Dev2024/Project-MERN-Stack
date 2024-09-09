@@ -11,7 +11,7 @@ router.get('/top', newsController.topNews);
 router.get('/search', newsController.searchByTitle);
 
 router.get('/byIdNews/:id', validId, authMiddleware, newsController.findById);
-router.get('/byUserId/', validId, authMiddleware, newsController.byUser);
+router.get('/byUserId/', authMiddleware, newsController.byUser);
 router.delete('/delete/:id', validId, authMiddleware, newsController.deleteNews);
 router.patch('/update/:id', validId, authMiddleware,  validPost, newsController.update);
 router.patch('/:id/like', validId, authMiddleware, newsController.likeNews);
